@@ -3,6 +3,7 @@
 <html lang="en">
 
     <head>
+
         <title>
             {% block title %}{% endblock %}
         </title>
@@ -25,17 +26,14 @@
                     <div class="jumbotron">
                         <h1>RAINY</h1>
                         <h1>DAY</h1>
-                        <a class="btn btn-primary" href="/logout">Logout</a>
+                        <a class="btn btn-secondary" href="/logout">Logout</a>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-8">
                     {% block body %}{% endblock %}
                 </div>
             </div>
         </div>
-
-
-
 
     </body>
 

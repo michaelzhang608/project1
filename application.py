@@ -6,8 +6,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from hashlib import sha1
 
-from helpers import login_required
-
 # from helpers import login_required
 
 app = Flask(__name__)
@@ -45,10 +43,35 @@ def login():
         # Remove any current active sessions
         session.clear()
 
-        db.execute("")
+        # Check for correct input
+        if not request.form.get("username"):
+            return render_template("error.html", error="Please provide username", back="/login")
+
+        if not request.form.get("password"):
+            return render_template("error.html", error="Please provide password", back="/login")
+
+        # Check for user in database
+        rows = db.execute("SELECT password FROM users WHERE username = :username",
+                          {"username":request.form.get("username")}).fetchone()
+
+        # Check if the is user under the username
+        if not rows:
+            return render_template("error.html", error="Sorry, username not found", back="/login")
+
+        # Has input password to check
+        check_pass = sha1(request.form.get("password").encode())
+        check_pass = check_pass.hexdigest()
+
+        # Check if password matches the database
+        if check_pass != rows[0]:
+            return render_template("error.html", error="Sorry, wrong password", back="/login")
+
+
+        return "sucess"
 
     else:
         return render_template("login.html")
+
 
 @app.route("/logout")
 def logout():
@@ -58,6 +81,7 @@ def logout():
 
     # Rdirect to main, which leads to login page
     return redirect("/")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -107,13 +131,6 @@ def register():
 
         # Redirect user to home page
         return redirect("/")
-
-
-
-
-
-
-        db.execute("")
 
     else:
         return render_template("register.html")
