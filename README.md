@@ -47,5 +47,20 @@ Register page containing a form that "POST"s to the /register route. Also contai
 ##### result.html
 Using JINJA, it iterates over the list of possible places that match to search and puts them into a unordered list. Each list item links to /location/{that list item's id}. Also contains a logout link that sends to the /logout route.
 
-#### search.html
+##### search.html
 Search page with a form that "POST"s to "/" to search for cities by zip code or by city name. Does not need a complete zip code or city name to function. Also contains a logout link that sends to the /logout route.
+
+### static/styles/
+##### styles.css
+Some light style changes and an @media query to simplify page if its viewport width is too narrow.
+
+### application.py
+
+
+
+### import.py
+#### Pseudocode:
+* set up database to db variable
+* create csv reader to go through each row of csv
+* in a for loop: iterate through each row and insert into db as you go
+* commit changes
