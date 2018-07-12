@@ -55,6 +55,7 @@ Search page with a form that "POST"s to "/" to search for cities by zip code or 
 Some light style changes and an @media query to simplify page if its viewport width is too narrow.
 
 ### application.py
+_In general, I have decided to keep my SQL queries simple enough to be more readable while doing my best to maximise their efficiency (reducing the total amount of queries required)_
 
 ##### @app.route("/")
 * If user not checked in send to /login route
