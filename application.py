@@ -90,7 +90,7 @@ def location(zip_id):
 
         # Add comment with current date
         db.execute("INSERT INTO comments (content, user_id, zip_id, date) VALUES (:content, :user_id, :zip_id, :date)",
-                   {"content": request.form.get("comment"), "user_id": session["user_id"], "zip_id": zip_id, "date": datetime.now().strftime("%Y-%m-%d")})
+                   {"content": request.form.get("comment"), "user_id": session["user_id"], "zip_id": zip_id, "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
 
         db.commit()
 
