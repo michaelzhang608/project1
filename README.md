@@ -56,7 +56,37 @@ Some light style changes and an @media query to simplify page if its viewport wi
 
 ### application.py
 
+##### @app.route("/")
+* If user not checked in send to /login route
+* Render search.html
+* Via POST, use SQL "LIKE" to find cities similar to query
+* Render result.html and pass in the results
 
+##### @app.route("/location/<int:zip_id>")
+* If user not checked in send to /login route
+* Via GET, checks to see if location in database
+* Gets api data from darksky and formats it
+* Renders location.html with info
+* Via POST, checks to see if user has already commented, if not, add to database
+* Gets api data from darksky and formats it
+* Renders location.html with info
+
+##### @app.route("/login")
+* Renders login.html
+* Compares form username input with database
+* Hashes password to compare with the password in database
+* If successful, sends to route ("/") and makes session["user_id"] the user's id
+
+##### @app.route("/logout")
+* Removes current session[user_id] and sends to login page
+
+##### @app.route("/register")
+* Form to register user
+* Hashes form password before inserting into database
+
+##### @app.route("/api/<zipcode>")
+* Gets data from database
+* returns as json
 
 ### import.py
 #### Pseudocode:
