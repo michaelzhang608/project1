@@ -56,8 +56,8 @@
     <div class="check-in">
         <h6>Check-in to {{ location[2].capitalize() }}:</h6>
         <form action="/location/{{ location[0] }}" method="post">
-            <input autofocus class="form-control" type="text" autocomplete="off" name="comment" placeholder"Leave your comment here">
-            <button class="form-control" action="submit">Leave Comment</button>
+            <input autofocus class="form-control" type="text" autocomplete="off" name="comment" placeholder="Leave your comment here">
+            <button class="form-control" type="submit">Leave Comment</button>
         </form>
     </div>
 {% endblock %}

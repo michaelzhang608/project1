@@ -284,7 +284,7 @@ def api(zipcode):
         return jsonify(error="Error 404, not found"), 404
 
     # Get comments count if city exists
-    check_ins = db.execute("SELECT zip_id, COUNT(*) FROM comments WHERE zip_id = :zip_id GROUP BY zip_id",
+    check_ins = db.execute("SELECT COUNT(*) FROM comments WHERE zip_id = :zip_id GROUP BY zip_id",
                            {"zip_id": city[0]}).fetchone()
 
     # Assign 0 to check_ins if there are none
