@@ -24,15 +24,65 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/")
-def index():
+@app.route("/", methods=["GET", "POST"])
+def search():
 
-    # Check if user is logged in
-    if session.get("user_id") is None:
+    if request.method == "POST":
+
+        # Check if user is logged in
+        if session.get("user_id") is None:
+                return redirect("/login")
+
+        # Check for correct input
+        if not request.form.get("search"):
+            return render_template("error.html", error="Please provide search query", back="/")
+
+        # Check if input query is ZIP code or city name
+        if request.form.get("search").isdigit():
+
+            # Search for zipcode LIKE input query by considering them as strings
+            rows = db.execute("SELECT zip_id, zipcode, city, state FROM zips WHERE zipcode LIKE :search LIMIT 10",
+                       {"search":"%" + request.form.get("search") + "%"}).fetchall()
+
+        # Input must be city name
+        else:
+
+            # Search for city name LIKE input query, in all caps like in databse
+            rows = db.execute("SELECT zip_id, zipcode, city, state FROM zips WHERE city LIKE :search LIMIT 10",
+                              {"search":"%" + request.form.get("search").upper() + "%"}).fetchall()
+
+        if not rows:
+            return render_template("error.html", error="Sorry, we couldn't find your city", back="/"), 404
+
+        # Show list of cities to user
+        return render_template("result.html", places=rows)
+
+    else:
+
+        # Check if user is logged in
+        if session.get("user_id") is None:
+                return redirect("/login")
+
+        return render_template("search.html")
+
+@app.route("/location/<int:zip_id>", methods=["GET", "POST"])
+def location(zip_id):
+
+    if request.method == "POST":
+        x = 1
+    else:
+        # Check if user is logged in
+        if session.get("user_id") is None:
             return redirect("/login")
 
-    return render_template("layout.html")
+        # Check if in database by searching with zip_id because quickest search column
+        location = db.execute("SELECT * FROM zips WHERE zip_id = :place",
+                              {"place": zip_id}).fetchone()
 
+        if not location:
+            return render_template("error.html", error="If you entered the URL manually please check the url and try again.", back="/"), 404
+
+        return render_template("location.html", location=location, )
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -51,7 +101,7 @@ def login():
             return render_template("error.html", error="Please provide password", back="/login")
 
         # Check for user in database
-        rows = db.execute("SELECT password FROM users WHERE username = :username",
+        rows = db.execute("SELECT user_id, password FROM users WHERE username = :username",
                           {"username":request.form.get("username")}).fetchone()
 
         # Check if the is user under the username
@@ -63,11 +113,14 @@ def login():
         check_pass = check_pass.hexdigest()
 
         # Check if password matches the database
-        if check_pass != rows[0]:
+        if check_pass != rows[1]:
             return render_template("error.html", error="Sorry, wrong password", back="/login")
 
+        # Add user to current session
+        session["user_id"] = rows[0]
 
-        return "sucess"
+        # Send to main page once logged in
+        return redirect("/")
 
     else:
         return render_template("login.html")

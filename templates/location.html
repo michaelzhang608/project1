@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result
+{% endblock %}
+
+
+{% block body %}
+    <h1>Welcome to {{ location[2] }}, {{ location[3] }}!</h1>
+    <h3>Population: {{ location[6] }} people.</h3>
+    <h5>We are located at latitude: {{ location[4] }}, longitude: {{ location[5] }}</h5>
+
+{% endblock %}
