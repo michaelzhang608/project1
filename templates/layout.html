@@ -14,7 +14,7 @@
         <!--https://getbootstrap.com/docs/4.1/getting-started/introduction/-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="static/styles.css">
+        <link href="/static/styles/styles.css" rel="stylesheet">
 
     </head>
 
@@ -24,12 +24,20 @@
             <div class="row">
                 <div class="col-4">
                     <div class="jumbotron">
-                        <h1>RAINY</h1>
-                        <h1>DAY</h1>
-                        <a class="btn btn-secondary" href="/logout">Logout</a>
+                        <h1 class="display-4">RAINY</h1>
+                        <h1 class="display-4">DAY</h1>
+                        <p class="lead">Is it a rainy day today?</p>
+
+                        <!--Display message if passed in-->
+                        {% if message %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col">
+                    <br>
                     {% block body %}{% endblock %}
                 </div>
             </div>

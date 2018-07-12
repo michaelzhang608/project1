@@ -4,8 +4,12 @@
     Search
 {% endblock %}
 
-
 {% block body %}
+    <!--Logout button only on pages that need login-->
+    <br>
+    <a href="/logout" class="float-right">Logout</a>
+    <br>
+
     <h1>SEARCH</h1>
     <form action="/" method="post">
         <input autofocus class="form-control form-control-lg" type="text" name="search" autocomplete="off" placeholder="ZIP code or the name of city or town">

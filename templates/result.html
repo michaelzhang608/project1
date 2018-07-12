@@ -4,8 +4,13 @@
     Result
 {% endblock %}
 
-
 {% block body %}
+    <!--Logout button only on pages that need login-->
+    <br>
+    <a href="/logout" class="float-right">Logout</a>
+    <br>
+
+    <h3>Results:</h3>
     <ul class="list-group">
     {% for place in places %}
         <li class="list-group-item"><a href="/location/{{ place[0] }}">ZIP {{ place[1] }}: {{ place[2] }}, {{ place[3] }}</a></li>

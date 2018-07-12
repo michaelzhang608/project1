@@ -4,9 +4,11 @@
     Error
 {% endblock %}
 
-
 {% block body %}
-    {{ error }}
+    <br>
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
     <br>
     <a class="btn btn-link" href= {{ back }}>Return</a>
 {% endblock %}

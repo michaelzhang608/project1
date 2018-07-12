@@ -1,13 +1,63 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Result
+    {{ location[2].capitalize() }}'s Weather Page
 {% endblock %}
 
 
 {% block body %}
-    <h1>Welcome to {{ location[2] }}, {{ location[3] }}!</h1>
-    <h3>Population: {{ location[6] }} people.</h3>
-    <h5>We are located at latitude: {{ location[4] }}, longitude: {{ location[5] }}</h5>
+    <!--Logout button only on pages that need login-->
+    <br>
+    <a href="/logout" class="float-right">Logout</a>
+    <br>
 
+    <!--City info-->
+    <h1>Welcome to {{ location[2].capitalize() }}, {{ location[3] }}!</h1>
+    <p>We have a population of {{ location[6] }} people at latitude: {{ location[4] }}, longitude: {{ location[5] }}<p>
+
+    <!--Display all weather info in table-->
+    <h3 class="text-center">Current {{ location[2].capitalize() }} weather:</h3>
+    <table class="table table-dark">
+        <tr>
+            <td>Time of weather report</td>
+            <td>{{ weather["time"] }}</td>
+        </tr>
+        <tr>
+            <td>Current weather</td>
+            <td>{{ weather["summary"] }}</td>
+        </tr>
+        <tr>
+            <td>Temperature</td>
+            <td>{{ weather["temperature"] }} degrees fahrenheit</td>
+        </tr>
+        <tr>
+            <td>Dew point</td>
+            <td>{{ weather["dewPoint"] }} degrees fahrenheit</td>
+        </tr>
+        <tr>
+            <td>Humidity</td>
+            <td>{{ weather["humidity"] }}</td>
+        </tr>
+    </table>
+
+    <!--Comments-->
+    <h3>Number of check-ins : {{ check_ins }}</h3>
+    {% if no_comments %}
+    <p>{{ no_comments }}</p>
+    {% else %}
+        <ul class="list-group">
+        {% for comment in comments %}
+            <li class="list-group-item"><span id="comment-header">On {{ comment[1]}}, {{ comment[2].capitalize() }} said:</span><br>{{ comment[0] }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+    <br>
+    <div class="check-in">
+        <h6>Check-in to {{ location[2].capitalize() }}:</h6>
+        <form action="/location/{{ location[0] }}" method="post">
+            <input autofocus class="form-control" type="text" autocomplete="off" name="comment" placeholder"Leave your comment here">
+            <button class="form-control" action="submit">Leave Comment</button>
+        </form>
+    </div>
 {% endblock %}

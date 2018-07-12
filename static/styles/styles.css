@@ -1,0 +1,18 @@
+@media (max-width: 769px)
+{
+    .col-4
+    {
+      display: none;
+    }
+}
+
+#comment-header
+{
+  font-style: italic;
+}
+
+.jumbotron
+{
+  background-color: #001f51;
+  color: white;
+}
